@@ -1,4 +1,4 @@
-DOODLE=simple_rectangle
+DOODLE=simple_ellipse
 
 CC=gcc -std=c99
 SHELL=bash
