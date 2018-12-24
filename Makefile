@@ -1,4 +1,4 @@
-DOODLE=simple_ellipse
+DOODLE=perlin_test
 
 CC=gcc -std=c99
 SHELL=bash
@@ -26,7 +26,8 @@ DOODLE_SOURCES=$(wildcard $(DOODLE_DIR)/*.c)
 DOODLE_BINS=$(DOODLE_SOURCES:$(DOODLE_DIR)/%.c=$(BIN_DIR)/%)
 DOODLE_PNGS=$(DOODLE_BINS:$(BIN_DIR)/%=$(PNG_DIR)/%.png)
 
-all: $(DOODLE_PNG) $(DOODLE_BIN) $(OBJECTS)
+all: $(DOODLE_BIN) $(OBJECTS)
+	./$(DOODLE_BIN)
 	open -a preview $(DOODLE_PNG)
 
 doodles: $(DOODLE_PNGS)  $(DOODLE_BIN) $(OBJECTS)
