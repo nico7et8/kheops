@@ -19,9 +19,8 @@ int main () {
     cairo_paint(cr);
 
 
-    size_t steps = 1200;
-    double length = width;
-    double step = (double) length / steps;
+    double length = width -200;
+    double step = 1;
 
     cairo_set_line_width (cr, 0.5);
 
@@ -29,40 +28,38 @@ int main () {
 
     double r, g, b;
 
-    size_t kmax=32000;
+    for (size_t k=0 ; k <100 ; ++k) {
 
-    for (size_t k=0 ; k <kmax ; ++k) {
-
-        noise = perlin1D (steps, 100, 50);
+        noise = perlin1D (length, 5, 300);
 
         r = RAND1;
         g = RAND1;
         b = RAND1;
-        /* printf ("(%d, %d, %d)\n", r, g, b); */
-        cairo_set_source_rgba (cr, r, r, r, 0.1);
+        cairo_set_source_rgba (cr, r, g, b, 1);
 
-        double x=0;
-        double y=(double)k/40;
+        double x=100;
+        double y0= height/2;
+        double y = y0;
         cairo_move_to (cr, x, y);
 
-        for (size_t i=0 ; i < steps ; ++i) {
-            y = (double)k/40 + noise[i]; 
+        for (size_t i=0 ; i < length ; ++i) {
+            y = y0 + noise[i]; 
             cairo_line_to (cr, x, y);
             x += step;
         }
         cairo_stroke (cr);
-        cairo_line_to (cr, width, k);
+        cairo_line_to (cr, width-100, k);
     }
 
-    /* cairo_move_to (cr, 100, 400); */
-    /* cairo_line_to (cr, 1100, 400); */
-    /* cairo_set_line_width (cr, 2); */
-    /* cairo_set_source_rgb (cr, 1, 0, 0); */
-    /* cairo_stroke (cr); */
+    cairo_move_to (cr, 100, 400);
+    cairo_line_to (cr, 1100, 400);
+    cairo_set_line_width (cr, 2);
+    cairo_set_source_rgb (cr, 1, 0, 0);
+    cairo_stroke (cr);
 
 
     cairo_destroy (cr);
-    cairo_surface_write_to_png (surface, "png/perlin_test.png");
+    cairo_surface_write_to_png (surface, "png/perlin1D_test.png");
     cairo_surface_destroy (surface);
     
     return 0;

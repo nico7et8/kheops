@@ -1,4 +1,4 @@
-DOODLE=perlin_test
+DOODLE=perlin2D_test
 
 CC=gcc -std=c99
 SHELL=bash
