@@ -7,9 +7,8 @@
 
 int main () {
 
-    unsigned width = 1280;
-    unsigned height = 720;
-    unsigned margin = 100;
+    unsigned width = 900;
+    unsigned height = 900;
 
     srand (time(NULL));
 
@@ -17,27 +16,18 @@ int main () {
     cairo_t * cr = cairo_create (surface);
 
     cairo_set_antialias (cr, CAIRO_ANTIALIAS_BEST);
-    cairo_set_line_width (cr, 0.5);
     cairo_set_source_rgb (cr, 1, 1, 1);
     cairo_paint (cr);
-    cairo_set_source_rgb (cr, 0, 0, 0);
+    cairo_set_source_rgba (cr, 0, 0, 0, 1);
+    cairo_set_line_width (cr, 1);
 
     kheops_set_amp_delta (0.04);
     kheops_set_amp_depth (5);
-    double step = 0.05;
+    double step = 0.1;
 
-    for (double k = 0 ; k < height ; k += step) {
-       cairo_move_to (cr, 0, k); 
-       kheops_line_to2 (cr, width, k);
-       cairo_stroke (cr);
-    }
-
-    /* for (double k = 0 ; k < height ; k += step) { */
-       /* cairo_move_to (cr, 0, k);  */
-       /* kheops_rel_line_to (cr, width, 0); */
-       /* cairo_stroke (cr); */
-    /* } */
-
+    cairo_move_to (cr, width*0.33, height*0.33);
+    cairo_curve_to (cr,width*0.33 - 100, height*0.33, width*0.33 + 100, height*0.66, width*0.33, height*0.66);  
+    cairo_stroke (cr);
 
     cairo_destroy (cr);
     cairo_surface_write_to_png (surface, "png/kheops_test01.png");

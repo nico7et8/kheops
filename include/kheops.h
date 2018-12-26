@@ -11,5 +11,4 @@ void kheops_rel_line_to (cairo_t * cr, const double x1, const double y1);
 
 void kheops_line_to (cairo_t * cr, const double x1, const double y1);
 
-
 #endif
