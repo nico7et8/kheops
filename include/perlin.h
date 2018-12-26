@@ -7,6 +7,10 @@
 #define RAND11 (2*(double)rand()/(double)RAND_MAX-1)
 #define RAND255 ((rand() % 255))
 
+void build_grad1D ();
+
+void build_grad2D ();
+
 double * perlin1D (
         const size_t samples,
         const unsigned depth, 
