@@ -12,15 +12,14 @@ int main () {
     cairo_surface_t * surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
     cairo_t * cr = cairo_create (surface);
 
-    srand(time(NULL));
     RAND255;
 
-    cairo_set_source_rgb (cr, 255, 255, 255);
+    cairo_set_source_rgb (cr, 1, 1, 1);
     cairo_paint(cr);
+    cairo_set_source_rgb (cr, 0, 0, 0);
 
-
-    double length = width -200;
-    double step = 1;
+    unsigned margin = 100;
+    double length = width - 2*margin;
 
     cairo_set_line_width (cr, 0.5);
 
@@ -30,38 +29,48 @@ int main () {
 
     for (size_t k=0 ; k <100 ; ++k) {
 
-        noise = perlin1D (length, 5, 300);
+            r = RAND1;
+            g = RAND1;
+            b = RAND1;
 
-        r = RAND1;
-        g = RAND1;
-        b = RAND1;
-        cairo_set_source_rgba (cr, r, g, b, 1);
+    for (size_t d=0 ; d < 3 ; ++d) {
 
-        double x=100;
-        double y0= height/2;
-        double y = y0;
-        cairo_move_to (cr, x, y);
+        srand(k);
 
-        for (size_t i=0 ; i < length ; ++i) {
-            y = y0 + noise[i]; 
-            cairo_line_to (cr, x, y);
-            x += step;
+
+        switch (d) {
+            case 0:
+                cairo_set_source_rgba (cr, r, g*0.7, b*0.7, 1);
+                break;
+            case 1:
+                cairo_set_source_rgba (cr, r*0.7, g, b*0.7, 1);
+                break;
+            case 2:
+                cairo_set_source_rgba (cr, r*0.7, g*0.7, b, 1);
+                break;
         }
-        cairo_stroke (cr);
-        cairo_line_to (cr, width-100, k);
+
+            noise = perlin1D (length, 5, 200);
+
+
+            double x=margin;
+            double y0= height/4 * (d+1);
+            double y = y0;
+            cairo_move_to (cr, x, y);
+
+            for (size_t x=margin ; x < width - margin ; ++x) {
+                y = y0 + noise[x-margin]; 
+                cairo_line_to (cr, x, y);
+            }
+            cairo_stroke (cr);
+            cairo_line_to (cr, width-margin, k);
+        }
     }
-
-    cairo_move_to (cr, 100, 400);
-    cairo_line_to (cr, 1100, 400);
-    cairo_set_line_width (cr, 2);
-    cairo_set_source_rgb (cr, 1, 0, 0);
-    cairo_stroke (cr);
-
 
     cairo_destroy (cr);
     cairo_surface_write_to_png (surface, "png/perlin1D_test.png");
     cairo_surface_destroy (surface);
-    
+
     return 0;
 
 }

@@ -6,8 +6,8 @@
 
 int main () {
 
-    unsigned width = 1200;
-    unsigned height = 800;
+    unsigned width = 1000;
+    unsigned height = 1000;
 
     cairo_surface_t * surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
     cairo_t * cr = cairo_create (surface);
@@ -15,25 +15,22 @@ int main () {
     srand(time(NULL));
     RAND255;
 
-    cairo_set_source_rgb (cr, 255, 255, 255);
+    cairo_set_source_rgb (cr, 1, 1, 1);
     cairo_paint(cr);
 
-    double ** perlin = perlin2D (12, 8, 1, 1);
+    int margin = 50;
 
-    for (int row = 0 ; row < 8 ; ++ row) {
-        for (int col = 0 ; col < 12 ; ++col) {
-            printf ("%02.0f ", perlin[row][col]);
-        }
-        printf ("\n");
-    }
+    double ** perlin1 = perlin2D (width - 2 * margin, height - 2 * margin, 9, 1);
+    double ** perlin2 = perlin2D (width - 2 * margin, height - 2 * margin, 9, 1);
+    double ** perlin3 = perlin2D (width - 2 * margin, height - 2 * margin, 9, 1);
 
-    int margin = 100;
-    double c;
+    double c1, c2, c3;
     for (size_t row = margin ; row < height - margin ; ++row) {
-        for (size_t col = margin ; col < width - margin ; ++col) {
-            c = 0.5;
-            /* printf ("%f\n", c); */
-            cairo_set_source_rgb (cr, c, c, c);
+        for (size_t col = margin ; col < width - margin; ++col) {
+            c1 = 0.5 + perlin1[row - margin][col - margin];
+            c2 = 0.5 + perlin2[row - margin][col - margin];
+            c3 = 0.5 + perlin3[row - margin][col - margin];
+            cairo_set_source_rgb (cr, c1, c2, c3);
             cairo_rectangle (cr, col, row, 1, 1);
             cairo_fill (cr);
         }

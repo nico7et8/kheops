@@ -1,10 +1,10 @@
-DOODLE=perlin2D_test
+DOODLE=kheops_test01
 
 CC=gcc -std=c99
 SHELL=bash
 ECHO=echo -e
 AR=ar cr
-CFLAGS=-W -Wall -O3 `(pkg-config --cflags cairo)`
+CFLAGS=-W -Wall -g `(pkg-config --cflags cairo)`
 LIBS=`(pkg-config --libs cairo)`
 
 SRC_DIR=src
