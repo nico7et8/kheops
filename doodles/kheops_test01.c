@@ -4,34 +4,59 @@
 #include <math.h>
 #include <time.h>
 #include "kheops.h"
+#include "perlin.h"
 
 int main () {
 
     unsigned width = 1000;
     unsigned height = 1000;
 
-    srand (time(NULL));
+    srand(time(NULL));
+    RAND255;
 
     cairo_surface_t * surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
     cairo_t * cr = cairo_create (surface);
 
-    cairo_set_antialias (cr, CAIRO_ANTIALIAS_BEST);
     cairo_set_source_rgb (cr, 1, 1, 1);
     cairo_paint (cr);
-    cairo_set_source_rgba (cr, 0, 0, 0, 1);
-    cairo_set_line_width (cr, 0.1);
 
-    double tangent= 400;
-    double shift = 0;
 
-    kheops_set_amp_delta (0.05);
-    kheops_set_amp_depth (10);
+    /* kheops_set_amp_delta (0.1); */
+    /* kheops_set_amp_depth (10); */
 
-    for (size_t i=0 ; i < 500 ; ++i) {
+    cairo_set_source_rgb (cr, 1,0,0);
+    cairo_set_line_width (cr, 0.5);
 
-    kheops_move_to (cr, 600, 200);
-    kheops_curve_to (cr, 600+tangent, 200, 600-tangent, 600, 600, 600);
-    kheops_stroke (cr);
+    int rowMax = 30;
+    int colMax = rowMax;
+    double yStep = height / rowMax;
+    double xStep = width / colMax;
+    double x0, y0 = 0;
+    double my = yStep / 5;
+    double mx = xStep / 5;
+    double l = 0.25;
+    double c;
+
+    double ** perlin = perlin2D (colMax, rowMax, 1, 1);
+
+    for (int row = 0 ; row < rowMax ; ++ row) {
+        x0 = 0;
+        for (int col = 0 ; col < colMax ; ++col) {
+            if (rand() % 2 == 0) {
+                c = perlin[row][col] / 2 + 0.5;    
+                cairo_set_source_rgba (cr, c, 0, 0, 1);
+                cairo_move_to (cr, x0+mx, y0+my);
+                cairo_line_to (cr, x0+xStep-mx, y0+my);
+                cairo_line_to (cr, x0+xStep-mx, y0+yStep-my);
+                cairo_line_to (cr, x0+mx, y0+yStep-my);
+                cairo_line_to (cr, x0+mx, y0+my);
+                cairo_stroke(cr);
+            }
+            x0 += xStep;
+            printf ("% 5.2f ", c);
+        }
+        printf ("\n");
+        y0 += yStep;
     }
     
     cairo_destroy (cr);

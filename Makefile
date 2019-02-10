@@ -1,4 +1,4 @@
-DOODLE=kheops_test01
+DOODLE=dottify-test
 
 CC=gcc -std=c99
 SHELL=bash

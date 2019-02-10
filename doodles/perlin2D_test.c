@@ -6,8 +6,8 @@
 
 int main () {
 
-    unsigned width = 1000;
-    unsigned height = 1000;
+    unsigned width = 2000;
+    unsigned height = 2000;
 
     cairo_surface_t * surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
     cairo_t * cr = cairo_create (surface);

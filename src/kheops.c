@@ -64,7 +64,6 @@ void kheops_line_to (cairo_t * cr, const double x1, const double y1) {
     /* kheops_rel_line_to (cr, x1 - x0, y1 - y0); */
 /* } */
 
-
 double vect_norm (double x, double y) {
     return sqrt (x*x + y*y);
 }

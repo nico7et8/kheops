@@ -97,11 +97,11 @@ double ** perlin2D (const size_t xSamples, const size_t ySamples, const unsigned
         amplitude /= factor;
         n *= factor;
         if (maxSamples < 2 * n) {
-            printf ("break\n");
-        printf ("%d\n", n);
+            /* printf ("break\n"); */
+        /* printf ("%d\n", n); */
             break;
         }
-        printf ("%d\n", n);
+        /* printf ("%d\n", n); */
     }
     return perlin;
 }
